@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newsys.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.newsys.pojo.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <id column="new_id" jdbcType="INTEGER" property="newId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="review" jdbcType="LONGVARCHAR" property="review" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+      and new_id = #{newId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.newsys.pojo.Comment">
+    insert into comment (comment_id, new_id, user_id, 
+      parent_id, createtime, review
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{newId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{parentId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{review,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.newsys.pojo.Comment">
+    update comment
+    set user_id = #{userId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      review = #{review,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+      and new_id = #{newId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select comment_id, new_id, user_id, parent_id, createtime, review
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+      and new_id = #{newId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select comment_id, new_id, user_id, parent_id, createtime, review
+    from comment
+  </select>
+</mapper>

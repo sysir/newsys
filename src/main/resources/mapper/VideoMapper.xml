@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newsys.dao.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.newsys.pojo.Video">
+    <id column="video_id" jdbcType="INTEGER" property="videoId" />
+    <id column="new_id" jdbcType="INTEGER" property="newId" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="video_path" jdbcType="VARCHAR" property="videoPath" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+      and new_id = #{newId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.newsys.pojo.Video">
+    insert into video (video_id, new_id, video_name, 
+      video_path)
+    values (#{videoId,jdbcType=INTEGER}, #{newId,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, 
+      #{videoPath,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.newsys.pojo.Video">
+    update video
+    set video_name = #{videoName,jdbcType=VARCHAR},
+      video_path = #{videoPath,jdbcType=VARCHAR}
+    where video_id = #{videoId,jdbcType=INTEGER}
+      and new_id = #{newId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select video_id, new_id, video_name, video_path
+    from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+      and new_id = #{newId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select video_id, new_id, video_name, video_path
+    from video
+  </select>
+</mapper>

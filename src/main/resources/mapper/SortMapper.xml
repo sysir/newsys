@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newsys.dao.SortMapper">
+    <resultMap id="BaseResultMap" type="com.newsys.pojo.Sort">
+        <id column="sort_id" jdbcType="INTEGER" property="sortId"/>
+        <result column="sort_name" jdbcType="VARCHAR" property="sortName"/>
+        <result column="sort_fid" jdbcType="INTEGER" property="sortFid"/>
+        <result column="sort_status" jdbcType="INTEGER" property="sortStatus"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sort
+    where sort_id = #{sortId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.newsys.pojo.Sort">
+    insert into sort (sort_id, sort_name, sort_fid, 
+      sort_status)
+    values (#{sortId,jdbcType=INTEGER}, #{sortName,jdbcType=VARCHAR}, #{sortFid,jdbcType=INTEGER}, 
+      #{sortStatus,jdbcType=INTEGER})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.newsys.pojo.Sort">
+    update sort
+    set sort_name = #{sortName,jdbcType=VARCHAR},
+      sort_fid = #{sortFid,jdbcType=INTEGER},
+      sort_status = #{sortStatus,jdbcType=INTEGER}
+    where sort_id = #{sortId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select sort_id, sort_name, sort_fid, sort_status
+    from sort
+    where sort_id = #{sortId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select sort_id, sort_name, sort_fid, sort_status
+    from sort limit #{start},#{limit}
+  </select>
+
+    <select id="getnavsort" resultMap="BaseResultMap">
+    select sort_id, sort_name, sort_fid, sort_status
+    from sort
+    where
+    sort_fid is null and sort_status=1
+  </select>
+    <select id="getbarsort" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select sort_id, sort_name, sort_fid, sort_status
+        from sort
+        where sort_fid=#{nid} and sort_status=1
+    </select>
+    <select id="sortByFid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select sort_fid
+        from sort
+        where  sort_id=#{bid}
+    </select>
+    <select id="getbarsortbyid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select sort_id, sort_name, sort_fid, sort_status
+        from sort
+        where  sort_fid=#{sortId} and sort_status=1
+    </select>
+    <select id="searchSort" resultMap="BaseResultMap">
+        select sort_id, sort_name, sort_fid, sort_status
+        from sort
+        <where>
+            <if test="stu == 1">
+                sort_status = 1
+            </if>
+            <if test="stu == 0">
+                sort_status = 0
+            </if>
+            <if test="sid != null and sid != ''">
+                sort_id like concat('%',#{sid},'%')
+            </if>
+            <if test="sname != null and sname !=''">
+                and sort_name like concat('%',#{sname},'%')
+            </if>
+        </where>
+        limit #{start},#{limit}
+    </select>
+    <select id="searchCount" resultType="java.lang.Integer">
+        select count(sort_id)
+        from sort
+        <where>
+            <if test="stu == 1">
+                sort_status = 1
+            </if>
+            <if test="stu == 0">
+                sort_status = 0
+            </if>
+            <if test="sid != null and sid != ''">
+                sort_id like concat('%',#{sid},'%')
+            </if>
+            <if test="sname != null and sname !=''">
+                and sort_name like concat('%',#{sname},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+       select count(sort_id) from sort
+    </select>
+
+    <select id="selectIdByFid"  parameterType="java.lang.String" resultType="java.lang.Integer">
+       select sort_id from sort where sort_fid=#{s}  ORDER BY sort_id DESC LIMIT 1
+    </select>
+    <select id="getbarsortandstu"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+       select sort_id,sort_name from sort where sort_status = 1 and sort_fid=#{id}
+    </select>
+</mapper>

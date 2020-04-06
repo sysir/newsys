@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>main</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/basic.css" th:href="@{/css/basic.css}">
+    <link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
+</head>
+<!--测试高度-->
+<body>
+<div class="topnav navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navheader col-md-2">
+        <a href="/home/index" class="navbar-brand">新闻发布图标</a>
+    </div>
+    <div th:each="sort,n:${navsort}">
+        <div class="main-list col-md-8 col-md-offset-1 collapse navbar-collapse">
+            <ul class="nav-list nav navbar-nav" id="nav-list">
+                <li class="nav-item"><a class="active"
+                                        th:href="@{/home/sortNavId(nid=${sort.sortId})}" th:text="${sort.sortName}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="loginwrap col-md-2 dropdown navbar-right" style="padding-top: 8px">
+        <div class="dropdown pull-right">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><img alt="" class="img-circle"
+                                                                            th:src="@{/images/favicon.ico}"
+                                                                            width="38px"
+                                                                            height="38px"/></a>
+            <ul class="dropdown-menu dropdown-user dropdown-menu-right">
+                <li><a href="/sys/login" th:if="${session.user==null}"><i class="fa fa-user fa-fw"></i>
+                    用户登录
+                </a>
+                </li>
+                <li><a th:if="${session.user!=null}"><i class="fa fa-user fa-fw"></i>
+                    欢迎[[${session.username}]]登录
+                </a>
+                </li>
+                <li><a href="/home/toindex" th:if="${session.user!=null && session.role==1}"><i
+                        class="fa fa-user fa-fw"></i>
+                    后台管理
+                </a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="/sys/logout"><i class="fa fa-user fa-fw"></i>
+                    退出登录
+                </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="container-flag container">
+    <!--左侧导航-->
+
+    <div class="col-sm-2">
+        <div class="list-group left-bar" id="left-bar">
+            <div th:each="sort,n:${barsort}">
+                <a th:href="@{/home/sortBarId(bid=${sort.sortId})}"
+                   class="list-group-item list-group-item-action text-center"
+                   th:text="${sort.sortName}">
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-7">
+        <div class="news-list">
+            <div th:each="news:${newsList}">
+                <div class="news-list-item clearfix">
+                    <div class="col-sm-5"><img class="photo" src="https://dummyimage.com/600x400/000/fff&text=test"
+                                               alt="photo"></div>
+                    <div class="col-sm-7">
+                        <div class="title title-show">
+                            <a th:href="@{/home/toNewById(nid=${news.newId})}"
+                               th:text="${news.newTitle}"></a>
+                        </div>
+                        <div class="info">
+                            <div class="avatar"><img src="./images/userinfo/user1.png" alt=""></div>
+                            <span th:text="${news.auther}"></span> ·
+                            <span th:text="${news.visited}"></span> ·
+                            <span th:text="${news.pubdate}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="search-box">
+            <form class="form-inline navbar-right" role="search" action="/home/search">
+                <label>
+                    <input class="form-control" type="text" placeholder="搜索新闻" id="keyWords" name="keyWords">
+                </label>
+                <!--<span class="glyphicon glyphicon-search form-control-feedback"></span>-->
+                <button class="form-control search">搜索</button>
+            </form>
+        </div>
+
+        <div class="right-bar">
+            <div class="card-title">24小时热文</div>
+            <div class="right-card">
+                <div class="list">
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-bar" id="footer">
+            <p class="pcompany-name"> © 2020 news头条</p>
+            <a href="http://www.12377.cn/" target="_blank" ga_event="click_about">中国互联网举报中心</a>
+            <a href="https://tsm.miit.gov.cn/dxxzsp/" target="_blank" ga_event="click_about">京ICP证140141号</a>
+            <div>
+                <a href="http://beian.miit.gov.cn" target="_blank" ga_event="click_about">蜀ICP备19036389号</a>
+            </div>
+            <p>京-非经营性-2016-0081</p>
+            <span>违法和不良信息举报：400-140-2108</span>
+            <span>举报邮箱：sysir@gmail.com</span> <span>公司名称：NEWSYS科技有限公司</span>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002002023" target="_blank"
+               ga_event="click_about">
+                <img src="//s3.pstatp.com/toutiao/static/img/gongan.d0289dc.png">&nbsp;京公网安备
+                11000002002023号</a>
+        </div>
+        <div class="right-bar hidenbar" id="test">
+            <div class="card-title">24小时热文</div>
+            <div class="right-card">
+                <div class="list">
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                    <div class="item">
+                        <div class="title">欲将沉醉换悲凉，清歌莫断肠,曾经以为，相爱的人一定要相守</div>
+                        <div class="desc">15k阅读 1k评论</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="center-block text-center" style="font-size: 20px;padding: 200px 150px 10px 10px">fdnjfha</footer>
+<div id="gotop">
+    返回<br/>
+    顶部
+</div>
+<script type="text/javascript" src="./js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="./js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script>
+    $(function () {
+        //绑定滚动条事件
+        //绑定滚动条事件
+        $(window).bind("scroll", function () {
+            var sTop = $(window).scrollTop();
+            if (sTop <= 750) {
+                if (!$("#footer").is(":visible")) {
+                    try {
+                        $("#footer").slideDown();
+                    } catch (e) {
+                        $("#footer").show();
+                    }
+                }
+            } else {
+                if ($("#footer").is(":visible")) {
+                    try {
+                        $("#footer").slideUp();
+                    } catch (e) {
+                        $("#footer").hide();
+                    }
+
+
+                }
+            }
+        });
+    });
+
+    $(function () {
+        $(window).bind("scroll", function () {
+            var sTop = $(window).scrollTop();
+            var test = document.getElementById("#test");
+            if (sTop <= 750) {
+                $("#test").hide();
+            } else {
+                $("#test").show();
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

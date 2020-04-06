@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻编辑页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="./layui/css/layui.css" th:href="@{/layui/css/layui.css}"/>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body style="min-width: 1000px">
+<div class="layui-container" id="news-add">
+    <form class="layui-form" style="padding-top: 50px" id="news-form">
+        <div class="layui-form-item">
+            <label for="newTitle" class="layui-form-label">
+                新闻标题</label>
+            <div class="layui-inline">
+                <input type="text" id="newTitle" name="newTitle" placeholder="新闻标题(5～30汉字)" lay-verify="required"
+                       autocomplete="off" class="layui-input" style="width: 1000px"></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择分类</label>
+            <div class="layui-inline">
+                <label class="layui-input-inline" style="width: 260px">
+                    <select name="mainid" id="mainid" class="form-control1" lay-filter="pre"> 
+                        <option value="">选择主要分类</option>
+                        <option th:each="sort:${navsort}" th:value="${sort.sortId}" th:text="${sort.sortName}"></option>
+                    </select></label>
+                <label class="layui-input-inline" style="width: 260px" lay-filter="end">
+                    <select name="depid" id="depid" class="form-control1"> 
+                        <option value="">选择次要分类</option>
+                                
+                        <!-- th:each="sort:${barsort}" th:value="${sort.sortId}" th:text="${sort.sortName}"-->
+                    </select></label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="line-height: 100px">
+                封面图片</label>
+            <div class="layui-inline layui-upload-drag" id="uploadImg">
+                <i class="layui-icon"></i>
+                <p>点击、拖拽上传封面图片</p>
+                <div class="layui-hide" id="uploadDemoView">
+                    <hr>
+                    <img src="" alt="上传成功后渲染" style="max-width: 196px" id="coverimg">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="line-height: 300px">
+                新闻内容</label>
+            <div class="layui-inline" id="editor" style="width: 1000px"></div>
+
+        </div>
+        <div class="layui-form-item" style="display:block;margin-left: 110px;padding-top: 25px">
+            <button type="button" class="layui-btn" id="addnews" style="margin-right:50px;">发布</button>
+            <button type="button" class="layui-btn" id="exit">返回</button>
+        </div>
+    </form>
+</div>
+
+
+</body>
+<script type="text/javascript" src="./js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/wangEditor.min.js}"></script>
+<script type="text/javascript" src="./layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" src="./js/newsadd.js" th:src="@{/js/newsadd.js}"></script>
+<script type="text/javascript">
+    //editor
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+
+    editor.customConfig.zIndex = 100;
+    // 关闭粘贴样式的过滤
+    editor.customConfig.pasteFilterStyle = false;
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true;
+    // 自定义处理粘贴的文本内容
+    editor.customConfig.pasteTextHandle = function (content) {
+        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+        return content + '<br />'
+    };
+    editor.customConfig.onblur = function (html) {
+    };
+    editor.customConfig.onchange = function (html) {
+    };
+
+    // 上传图片到服务器
+    //editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    editor.customConfig.uploadImgServer = '/upload'; //设置上传文件的服务器路径
+    editor.customConfig.uploadImgMaxLength = 5;   //图片数量
+    editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024; // 将图片大小限制为 3M
+    editor.create();
+
+    var flag =false;
+
+    layui.use(['element', 'table', 'upload', 'layer', 'laydate', 'form'], function () {
+        var element = layui.element,
+            $ = layui.jquery,
+            table = layui.table,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            form = layui.form,
+            layer = layui.layer;
+
+        $("#addnews").on('click', function () {
+            editor.txt.html(content);
+            var content = editor.txt.html();
+            console.log(content);
+            // 读取 text
+            var announcement_mag = editor.txt.text();
+            $.ajax({
+                type: 'post',
+                url: 'http://localhost:8080/main/addnews',
+                dataType: 'json',
+                data: {
+                    "newTitle": $("#newTitle").val(),
+                    "mainid": $("#mainid").val(),
+                    "depid": $("#depid").val(),
+                    "content": content
+                },
+                success: function (re) {
+                    if (re.status === 200) {
+                        layer.msg(re.message, {icon: 6});
+                    } else {
+                        layer.msg(re.message, {icon: 5});
+                    }
+                }
+            });
+        })
+
+        $("#newTitle").blur('input propertychange', function (e) {
+            console.log($("#newTitle").val())
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/main/beforeNews",
+                dataType: 'json',
+                data: {
+                    "newTitle":$("#newTitle").val()
+                }
+            })
+        });
+    });
+</script>
+</html>

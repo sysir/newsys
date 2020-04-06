@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newsys.dao.NewsMapper">
+    <resultMap id="BaseResultMap" type="com.newsys.pojo.News">
+        <id column="new_id" jdbcType="INTEGER" property="newId"/>
+        <result column="new_title" jdbcType="VARCHAR" property="newTitle"/>
+        <result column="createdate" jdbcType="TIMESTAMP" property="createdate"/>
+        <result column="sort_id" jdbcType="INTEGER" property="sortId"/>
+        <result column="pubdate" jdbcType="TIMESTAMP" property="pubdate"/>
+        <result column="visited" jdbcType="INTEGER" property="visited"/>
+        <result column="comment" jdbcType="INTEGER" property="comment"/>
+        <result column="new_status" jdbcType="INTEGER" property="newStatus"/>
+        <result column="auther" jdbcType="VARCHAR" property="auther"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where new_id = #{newId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.newsys.pojo.News">
+    insert into news (new_id, new_title, createdate, 
+      sort_id, pubdate, visited, 
+      comment, new_status, auther, 
+      content)
+    values (#{newId,jdbcType=INTEGER}, #{newTitle,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{sortId,jdbcType=INTEGER}, #{pubdate,jdbcType=TIMESTAMP}, #{visited,jdbcType=INTEGER}, 
+      #{comment,jdbcType=INTEGER}, #{newStatus,jdbcType=INTEGER}, #{auther,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.newsys.pojo.News">
+    update news
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      createdate = #{createdate,jdbcType=TIMESTAMP},
+      sort_id = #{sortId,jdbcType=INTEGER},
+      pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      visited = #{visited,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=INTEGER},
+      new_status = #{newStatus,jdbcType=INTEGER},
+      auther = #{auther,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where new_id = #{newId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select new_id, new_title, createdate, sort_id, pubdate, visited, comment, new_status, 
+    auther, content
+    from news
+    where new_id = #{newId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByTitle" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select new_id
+    from news
+    where new_title = #{newTitle}
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select new_id, new_title, createdate, sort_id, pubdate, visited, comment, new_status, 
+    auther, content
+    from news
+  </select>
+    <select id="selectBySort" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select new_id, new_title, createdate, sort_id, pubdate, visited, comment, new_status,
+        auther, content
+        from news where sort_id like concat(#{nid},'%')
+    </select>
+    <select id="search" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select new_id, new_title, createdate, sort_id, pubdate, visited, comment, new_status,
+        auther, content
+        from news where new_title or content   like concat('%',#{keyWords},'%')
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+       select count(new_id) from news
+    </select>
+
+    <select id="searchnews" resultMap="BaseResultMap">
+        select new_id, new_title, createdate, sort_id, pubdate, visited, comment, new_status,
+        auther, content
+        from news
+        <where>
+            <if test="stu == 1">
+                new_status = 1
+            </if>
+            <if test="stu == 0">
+                new_status = 0
+            </if>
+            <if test="title != null and title != ''">
+                new_title like concat('%',#{title},'%')
+            </if>
+            <if test="auther != null and auther !=''">
+                and auther like concat('%',#{auther},'%')
+            </if>
+            <if test="content != null and content !=''">
+                and content like concat('%',#{content},'%')
+            </if>
+        </where>
+        limit #{start},#{limit}
+    </select>
+    <select id="searchCount" resultType="java.lang.Integer">
+        select count(new_id)
+        from news
+        <where>
+            <if test="stu == 1">
+                new_status = 1
+            </if>
+            <if test="stu == 0">
+                new_status = 0
+            </if>
+            <if test="title != null and title != ''">
+                new_title like concat('%',#{title},'%')
+            </if>
+            <if test="auther != null and auther !=''">
+                and auther like concat('%',#{auther},'%')
+            </if>
+            <if test="content != null and content !=''">
+                and content like concat('%',#{content},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectNews" resultMap="BaseResultMap">
+        select new_id, new_title, createdate, sort_id, pubdate, visited, comment, new_status,
+        auther, content
+        from news
+        <where>
+            <if test="pretime != null and pretime != '' and endtime != null and endtime != '' ">
+                and DATE_FORMAT(pubdate,'%Y-%m-%d') BETWEEN DATE_FORMAT(#{pretime},'%Y-%m-%d') AND
+                DATE_FORMAT(#{endtime},'%Y-%m-%d')
+            </if>
+        </where>
+        limit #{start},#{limit}
+    </select>
+</mapper>

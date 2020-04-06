@@ -1,0 +1,377 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    min-width: 1540px;
+    font: 500 1em/1.8 Microsoft Yahei, Avenir, Segoe UI, Hiragino Sans GB, STHeiti, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+img .right-bar .left-bar .left-bar .list-group-item-action {
+    border-radius: 5px;
+}
+
+.news-list *[img] {
+    border-radius: 5px;
+}
+
+.photo {
+    border-radius: 5px;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.search-box {
+    padding-left: 0;
+    margin-top: 55px;
+    padding-bottom: 100px;
+}
+
+.usernav {
+    padding-top: 8px;
+}
+
+.topnav {
+    height: 50px;
+    float: none;
+    font-size: 16px;
+}
+
+.main-list {
+    margin-left: 83px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 0;
+    height: 50px;
+}
+
+.navbar {
+    min-height: 50px;
+}
+.nav-item li a:hover{
+    color: red;
+}
+
+
+.loginwrap {
+    padding-right: 10px;
+
+}
+
+.container-flag {
+    padding-top: 50px;
+}
+
+/*左侧导航*/
+.left-bar {
+    font-size: 18px;
+    width: 180px;
+    padding-top: 15px;
+    position: fixed;
+}
+
+.left-bar .list-group-item-action {
+    border: 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.left-bar .list-group-item-action.active {
+    background-color: #ea0c3c;
+}
+
+.news-list {
+    padding-top: 15px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /*min-width: 640px;
+    min-height: 180px;*/
+}
+
+.title-show {
+    padding-top: 20px;
+}
+
+.news-list-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.news-list-item:hover {
+    background-color: rgba(0, 0, 0, .03);
+    transform: scale(0.999, 0.999);
+    border-radius: 10px;
+}
+
+.news-list-item:first-child {
+    padding-top: 0;
+}
+
+.news-list-item .title a {
+    display: block;
+    color: #444;
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.news-list-item .title a:hover {
+    color: #337ab7;
+}
+
+
+.news-list-item .info {
+    color: #888;
+    padding-top: 40px;
+    padding-left: 15px;
+}
+
+.news-list-item .info span {
+    font-size: 14px;
+}
+
+.avatar {
+    display: inline-block;
+}
+
+.avatar img {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+/*右侧栏*/
+.right-bar {
+    width: 300px;
+    background-color: rgba(0, 0, 0, .03);
+    /*margin-top: 100px;*/
+    padding-top: 10px;
+    margin-bottom: 10px;
+    visibility:visible;
+}
+/*.right-top{
+    position: relative;
+}*/
+.right-ba .hidenbar{
+    width: 300px;
+    background-color: rgba(0, 0, 0, .03);
+    /*margin-top: 100px;*/
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+#test{
+    position: fixed;
+    display: none;
+    margin-top: 50px;
+    top: 0;
+}
+
+.right-bar .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 15px;
+}
+
+.right-bar .right-card .list .item {
+    padding: 10px 16px;
+    margin-bottom: 5px;
+}
+
+.right-bar .right-card .list .item:last-child {
+    margin-bottom: 0;
+}
+
+.right-bar .right-card .list .item .title {
+    font-size: 15px;
+}
+
+.right-bar .right-card .list .item:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+    transform: scale(0.96, 0.97);
+}
+
+.right-bar .right-card .list .item .title {
+    padding-bottom: 5px;
+}
+
+.right-bar .right-card .list .item .desc {
+    color: #999;
+}
+
+
+/*新闻显示页*/
+/*header*/
+.article-header {
+    background-color: rgba(0, 0, 0, .03);
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.article-header .article-title {
+    font-weight: bold;
+}
+
+.article-header .article-desc {
+    margin-top: 15px;
+}
+
+.article-desc .auther-icon {
+    margin-right: 15px;
+    float: left;
+}
+
+.article-desc .autger-info {
+    color: #888;
+    font-size: 15px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    float: left;
+}
+
+.article-desc .autger-info span {
+    margin-right: 8px;
+}
+
+.article-header .article-desc .auther-icon .img-circle {
+    width: 30px;
+    height: 30px;
+}
+
+/*article*/
+.article-container {
+    margin-top: 35px;
+    margin-bottom: 150px;
+}
+
+.article .article-content {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 1.5;
+    padding-top: 35px;
+}
+
+/*article-right*/
+.right-bar.flag {
+    position: inherit;
+    width: 365px;
+    float: left;
+}
+
+.right-bar.flag-float {
+    width: 365px;
+    position: inherit;
+    float: left;
+
+}
+
+.nopadding-h {
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 5px;
+}
+
+#gotop {
+    position: fixed;
+    text-align: center;
+    margin-left: 1255px;
+    float: left;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, .05);
+}
+
+/*footer*/
+.footer {
+    padding: 50px 0;
+    text-align: center;
+}
+
+
+#nav-item a {
+    color: #222;
+    background-color: #eeeeee;
+}
+
+.layui-nav .layui-nav-more {
+    display: none
+}
+
+.layui-side {
+    position: absolute;
+    top: 45px;
+    /*bottom: 42px;*/
+    left: 0;
+    z-index: 2;
+    padding-top: 10px;
+    background-color: #EEEEEE;
+    width: 220px;
+    max-width: 220px;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow: hidden;
+}
+
+.layui-btn-fluid {
+    width: 50%
+}
+
+/*body #layui-form-item .layui-btn{
+
+}*/
+
+.layui-layout-admin .layui-header{
+    background-color: white!important;
+}
+.layui-nav{
+    background-color: white!important;
+}
+.layui-nav-tree .layui-nav-item a:hover {
+    background-color: #009688!important;
+}
+
+
+.container-small{
+  max-width: 500px;
+}
+.imgCode {
+    position: relative;
+}
+
+#imgCode img {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    cursor: pointer;
+}
+
+
+
+#news-add{
+    position: absolute;
+    max-width: 700px;
+}
+
+
+
+

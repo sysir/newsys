@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newsys.dao.UserinfoMapper">
+    <resultMap id="BaseResultMap" type="com.newsys.pojo.Userinfo">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_sex" jdbcType="TINYINT" property="userSex"/>
+        <result column="user_birthday" jdbcType="DATE" property="userBirthday"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="user_regtime" jdbcType="TIMESTAMP" property="userRegtime"/>
+        <result column="user_like" jdbcType="VARCHAR" property="userLike"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from userinfo
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.newsys.pojo.Userinfo">
+    insert into userinfo (user_id, user_name, user_sex, 
+      user_birthday, user_phone, user_email, 
+      user_regtime, user_like, user_status
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userSex,jdbcType=TINYINT}, 
+      #{userBirthday,jdbcType=DATE}, #{userPhone,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
+      #{userRegtime,jdbcType=TIMESTAMP}, #{userLike,jdbcType=VARCHAR}, #{userStatus,jdbcType=INTEGER}
+      )
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.newsys.pojo.Userinfo">
+    update userinfo
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=TINYINT},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_regtime = #{userRegtime,jdbcType=TIMESTAMP},
+      user_like = #{userLike,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select user_id, user_name, user_sex, user_birthday, user_phone, user_email, user_regtime, 
+    user_like, user_status
+    from userinfo
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, user_name, user_sex, user_birthday, user_phone, user_email, user_regtime, 
+    user_like, user_status
+    from userinfo
+  </select>
+    <select id="selectUsers" resultMap="BaseResultMap">
+    select user_id, user_name, user_sex, user_birthday, user_phone, user_email, user_regtime,
+    user_like, user_status
+    from userinfo
+  </select>
+    <select id="getCount" resultType="java.lang.Integer">
+    select count(user_id)
+    from userinfo
+  </select>
+    <update id="updateById">
+        update userinfo
+        <set>
+            <if test="field !=null and field !='' and field=='userName'">
+                user_name=#{value},
+            </if>
+            <if test="field !=null and field !='' and field=='userPhone'">
+                user_phone=#{value},
+            </if>
+            <if test="field !=null and field !='' and field=='userEmail'">
+                user_email=#{value}
+            </if>
+        </set>
+        where user_id =#{uid}
+    </update>
+
+    <update id="updateUesr">
+        update userinfo
+        <set>
+            <if test="userName !=null and userName !=''">
+                user_name=#{userName},
+            </if>
+            <if test="userPhone !=null and userPhone !=''">
+                user_phone=#{userPhone},
+            </if>
+            <if test="userEmail !=null and userEmail !=''">
+                user_email=#{userEmail}
+            </if>
+        </set>
+        where user_id =#{userId}
+    </update>
+    <select id="search" resultMap="BaseResultMap">
+    select user_id, user_name, user_sex, user_birthday, user_phone, user_email, user_regtime,
+    user_like, user_status
+    from userinfo
+        <where>
+            <if test="stu == 1">
+                user_status = 1
+            </if>
+            <if test="stu == 0">
+                user_status = 0
+            </if>
+            <if test="uid != null and uid != ''">
+                user_id like concat('%',#{uid},'%')
+            </if>
+            <if test="un != null and un !=''">
+                and user_name like concat('%',#{un},'%')
+            </if>
+            <if test="up != null and up !=''">
+                and user_phone like concat('%',#{up},'%')
+            </if>
+        </where>
+  </select>
+    <select id="getLastUid" resultType="java.lang.Integer">
+        SELECT user_id FROM userinfo GROUP BY user_id DESC LIMIT 1
+    </select>
+    <select id="selectByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT user_id FROM userinfo where user_phone=#{userPhone}
+    </select>
+
+</mapper>

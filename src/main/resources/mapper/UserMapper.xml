@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newsys.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.newsys.pojo.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.newsys.pojo.User">
+    insert into user (user_id, user_password, role_id
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userPassword,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.newsys.pojo.User">
+    update user
+    set user_password = #{userPassword,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select user_id, user_password, role_id
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, user_password, role_id
+    from user
+  </select>
+  <resultMap type="com.newsys.pojo.User" id="UserAndInfo">
+    <id column="user_id" property="userId"/>
+    <result column="user_password" property="userPassword"/>
+    <result column="role_id" property="roleId"/>
+    <association property="userinfo" javaType="com.newsys.pojo.Userinfo">
+      <id column="user_id" jdbcType="INTEGER" property="userId"/>
+      <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+      <result column="user_sex" jdbcType="TINYINT" property="userSex"/>
+      <result column="user_birthday" jdbcType="DATE" property="userBirthday"/>
+      <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+      <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+      <result column="user_regtime" jdbcType="TIMESTAMP" property="userRegtime"/>
+      <result column="user_like" jdbcType="VARCHAR" property="userLike"/>
+      <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+    </association>
+  </resultMap>
+  <select id="selectUser" parameterType="java.lang.String"  resultMap="UserAndInfo">
+    select user.user_id,role_id,user_name, user_phone,user_password
+    from userinfo,user
+    where userinfo.user_id=user.user_id and  user_phone=#{username}
+  </select>
+</mapper>

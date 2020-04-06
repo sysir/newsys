@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*"/>
+    <title>后台管理页面</title>
+    <link rel="stylesheet" type="text/css" href="./layui/css/layui.css" th:href="@{/layui/css/layui.css}" />
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">后台管理页面</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a>
+                    <!--用户的头像  用户名展示-->
+                    <img src="./images/user.gif" th:src="@{/images/user.gif}" class="layui-nav-img" alt=""> [[${session.username}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a th:if="${session.user!=null}"><!--<i class="fa fa-user fa-fw"></i>-->
+                        欢迎[[${session.username}]]登录
+                    </a></dd>
+                    <dd>
+                        <a href="">个人信息</a>
+                    </dd>
+                    <!--<dd>
+                        <a href="">安全设置</a>
+                    </dd>-->
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/home/index">新闻主页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/sys/logout">
+                    退出系统
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">成员管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a  href="/sys/memberlist" target="main">成员列表</a>
+                        </dd>
+                        <dd>
+                            <a href="#" target="main">成员审核</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">新闻管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="/sys/allnews" target="main">新闻列表</a>
+                        </dd>
+                    </dl>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="/sys/pubnews" target="main">新闻发布</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">分类管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="/sys/cate" target="main">分类信息</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;">用户列表</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">数据统计</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;">用户列表</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统设置</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;">屏蔽设置</a>
+                        </dd>
+                    </dl>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;">系统日志</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--主体内容-->
+    <div class="layui-body">
+        <!--src 表示默认跳转的页面地址-->
+        <iframe src="/sys/towel" width="100%" height="100%" name="main"></iframe>
+    </div>
+</div>
+</body>
+<script src="./layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+</html>
